@@ -1,0 +1,47 @@
+package minesweeper;
+
+//Venkat: Delete everything in this class. Then start writing minimum code only to make tests pass. There should be no code here that is no demanded by one of the tests.
+public class Minesweeper 
+{
+    private final int SIZE = 10;
+    private CellState currentCellState;
+    private CellState[][] cells = new CellState[SIZE][SIZE];
+
+    public enum CellState{UNEXPOSED, EXPOSED};
+    
+    
+    public Minesweeper()
+    {
+        for(int i = 0; i < SIZE; i++)
+        {
+            for(int j = 0; j < SIZE; j++)
+            {
+                cells[i][j] = CellState.UNEXPOSED;
+            }
+        }
+        currentCellState = CellState.UNEXPOSED;
+    }
+    
+    public void exposeCell(int row, int column)
+    {
+        cells[row][column] = CellState.EXPOSED;
+        exposeNeighborsOf(row, column);
+    }
+    
+    
+    private void exposeNeighborsOf(int row, int column) 
+    {
+        
+    }
+    
+    public CellState getCellState(int row, int column)
+    {
+        return cells[row][column];
+    }
+    
+    protected boolean isAnAdjacentCell(int row, int column) 
+    { 
+        return false; 
+    }
+    
+}

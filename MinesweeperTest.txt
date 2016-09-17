@@ -1,0 +1,130 @@
+package minesweeper;
+
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import minesweeper.Minesweeper.CellState;
+import org.junit.After;
+
+public class MinesweeperTest {
+    
+    Minesweeper minesweeper;
+    boolean exposeNeighborsOfCalled;
+    
+    @Before
+    public void setUp()
+    {
+        minesweeper = new Minesweeper(); 
+        exposeNeighborsOfCalled = false;
+    }
+    
+    @After
+    public void breakDown()
+    {
+        System.out.println("Break Down...");
+    }
+    
+    @Test
+    public void Canary()
+    {
+        assertTrue(true);
+    }
+    
+    @Test
+    public void exposeCellOnNonExposedCell()
+    {
+        minesweeper.exposeCell(3, 4);
+        assertEquals(CellState.EXPOSED, minesweeper.getCellState(3, 4));
+    }
+    
+    @Test
+    public void exposeAlreadyExposedCell()
+    {
+        minesweeper.exposeCell(2, 2);
+        minesweeper.exposeCell(2, 2);
+        assertEquals(CellState.EXPOSED, minesweeper.getCellState(2, 2));
+    }
+    
+    @Test
+    public void exposeCellExposesItsNeighbors()
+    {
+        Minesweeper minesweeper = new Minesweeper() 
+        {
+            protected void exposeNeighborsOf(int row, int column) 
+            {
+                exposeNeighborsOfCalled = true;
+            }
+        };
+
+        minesweeper.exposeCell(3, 4);
+        assertTrue(exposeNeighborsOfCalled);
+    }
+    
+    @Test
+    public void exposeCellOnAlreadyExposedDoesNotExposeNeighbors()
+    {
+        Minesweeper minesweeper = new Minesweeper() 
+        {
+            protected void exposeNeighborsOf(int row, int column) 
+            {
+                exposeNeighborsOfCalled = true;
+            }
+            
+            protected boolean isAnAdjacentCell()
+            {
+                return true;
+            }
+        };
+        assertTrue(true);
+    }
+    
+    @Test
+    public void exposeCellOutOfBoundsError()
+    {
+        try
+        {
+            minesweeper.exposeCell(8, 10);
+            fail("Expected null pointer exception.");
+        }
+        catch(ArrayIndexOutOfBoundsException e)
+        {
+            assertTrue(true);
+        }
+    }
+    
+    public void exposeCellTwoDifferentCells()
+    {
+        minesweeper.exposeCell(8, 3);
+        minesweeper.exposeCell(2, 0);
+
+        assertEquals(CellState.EXPOSED, minesweeper.getCellState(8, 3));
+        assertEquals(CellState.EXPOSED, minesweeper.getCellState(2, 0));
+    }
+
+//Venkat: In the previous review, I showed how to approach the testing. If that does not make sense, drop an email and ask for help.
+
+//Venkat: Write the following test here.
+
+//exposeCellExposesItsNeighbors
+//within this test, do
+/*
+  Minesweeper minesweeper = new Minesweeper() {
+    protected void exposeNeighborsOf(int row, int colummm) {
+      exposeNeighborsOfCalled = true;
+    };
+    
+    minesweeper.exposeCell(3, 4);
+    assert true for exposeNeighborsOfCalled
+  }
+*/
+
+//Now write another test, just like the above, for exposeCellOnAlreadyExposedDoesNotExposeNeighbors
+//in this test call exposeCell and assert that exposeNeighborsOfCalled is true, set exposeNeighborsOfCalled to fall, call exposeCell again
+//and verify that exposeNeighborsOfCalled is false.
+
+//Write a test to verify that exposeCell when called on an adjacent cell does not expose its neighbors.
+//For this, stub out exposeNeighborsOf in this test, like in the above example, and then also stub out a isAnAdjanceCell function which 
+//returns true. Then call exposeCell and verify exposeNeighborsOfCalled is false. [In the class, for now write isAnAdjanceCell to return false]
+
+//The main idea here is to verify that when we call exposeCell, it calls exposeNeighborsOf sometimes and not at other times
+}
