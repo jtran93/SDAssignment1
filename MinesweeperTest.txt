@@ -131,7 +131,7 @@ public class MinesweeperTest {
         @Override
         public void exposeCell(int row, int column)
         {
-            ArrayList newRowAndColumn = new ArrayList<Integer>(); //Venkat: Remove
+            ArrayList<Integer> newRowAndColumn = new ArrayList<Integer>(); //Venkat: Remove
             newRowAndColumn.add(row); //Venkat: rowsAndColumns.add(row);
             newRowAndColumn.add(column); //Venkat: rowsAndColumns.add(column);
             rowsAndColumns.add(newRowAndColumn); //Venkat: Remove
