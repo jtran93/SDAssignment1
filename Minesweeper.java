@@ -6,11 +6,8 @@ import java.util.List;
 public class Minesweeper
 {
     private final int SIZE = 10;
-    private CellState currentCellState; //Venkat: Remove
     private CellState[][] cells = new CellState[SIZE][SIZE];
-
     public enum CellState{UNEXPOSED, EXPOSED, SEALED};
-
 
     public Minesweeper()
     {
@@ -21,7 +18,6 @@ public class Minesweeper
                 cells[i][j] = CellState.UNEXPOSED;
             }
         }
-        currentCellState = CellState.UNEXPOSED;
     }
 
     public void exposeCell(int row, int column)
@@ -32,7 +28,6 @@ public class Minesweeper
             exposeNeighborsOf(row, column);
         }
     }
-
 
     protected void exposeNeighborsOf(int row, int column)
     {
@@ -64,19 +59,8 @@ public class Minesweeper
     {
         return false;
     }
- 
-//Venkat: Merge the next two functions into one toggleSell function
-    public void sealCell(int row, int column)
-    {
-        cells[row][column] = CellState.SEALED;
-    }
     
-    public void unsealCell(int row, int column)
-    {
-        cells[row][column] = CellState.UNEXPOSED;
-    }
-    
-    public void toggleCell(int row, int column)
+    public void toggleSeal(int row, int column)
     {
         if(cells[row][column] == CellState.UNEXPOSED)
             cells[row][column] = CellState.SEALED;
