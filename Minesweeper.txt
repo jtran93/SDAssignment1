@@ -1,12 +1,15 @@
 package minesweeper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Minesweeper
 {
     private final int SIZE = 10;
-    private CellState currentCellState;
+    private CellState currentCellState; //Venkat: Remove
     private CellState[][] cells = new CellState[SIZE][SIZE];
 
-    public enum CellState{UNEXPOSED, EXPOSED};
+    public enum CellState{UNEXPOSED, EXPOSED, SEALED};
 
 
     public Minesweeper()
@@ -23,7 +26,8 @@ public class Minesweeper
 
     public void exposeCell(int row, int column)
     {
-        if(cells[row][column] == CellState.UNEXPOSED && isAnAdjacentCell(row,column) == false) {
+        if(cells[row][column] == CellState.UNEXPOSED && isAnAdjacentCell(row,column) == false) 
+        {
             cells[row][column] = CellState.EXPOSED;
             exposeNeighborsOf(row, column);
         }
@@ -32,7 +36,23 @@ public class Minesweeper
 
     protected void exposeNeighborsOf(int row, int column)
     {
-
+      //Venkat: Please use a loop to reduce code
+        if(row > 0)
+            exposeCell(row-1, column);
+        if(row < 9)
+            exposeCell(row+1, column);
+        if(column > 0)
+            exposeCell(row, column-1);
+        if(column < 9)
+            exposeCell(row, column+1);
+        if(row > 0 && column > 0)
+            exposeCell(row-1, column-1);
+        if(row < 9 && column < 9)
+            exposeCell(row+1, column+1);
+        if(row > 0 && column < 9)
+            exposeCell(row-1, column+1);
+        if(row < 9 && column > 0)
+            exposeCell(row+1, column-1);
     }
 
     public CellState getCellState(int row, int column)
@@ -44,5 +64,23 @@ public class Minesweeper
     {
         return false;
     }
-
+ 
+//Venkat: Merge the next two functions into one toggleSell function
+    public void sealCell(int row, int column)
+    {
+        cells[row][column] = CellState.SEALED;
+    }
+    
+    public void unsealCell(int row, int column)
+    {
+        cells[row][column] = CellState.UNEXPOSED;
+    }
+    
+    public void toggleCell(int row, int column)
+    {
+        if(cells[row][column] == CellState.UNEXPOSED)
+            cells[row][column] = CellState.SEALED;
+        else if(cells[row][column] == CellState.SEALED)
+            cells[row][column] = CellState.UNEXPOSED;
+    }
 }
