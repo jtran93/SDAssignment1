@@ -13,14 +13,14 @@ public class MinesweeperTest {
 
     Minesweeper minesweeper;
     boolean exposeNeighborsOfCalled;
-    ArrayList<ArrayList<Integer>> rowsAndColumns;
+    ArrayList<Integer> rowsAndColumns;
 
     @Before
     public void setUp()
     {
         minesweeper = new Minesweeper();
         exposeNeighborsOfCalled = false;
-        rowsAndColumns = new ArrayList<ArrayList<Integer>>();
+        rowsAndColumns = new ArrayList<Integer>();
     }
 
     @Test
@@ -33,7 +33,7 @@ public class MinesweeperTest {
     public void exposeCellOnNonExposedCell()
     {
         minesweeper.exposeCell(3, 4);
-//Venkat: blank line for each of the 3-As
+        
         assertEquals(CellState.EXPOSED, minesweeper.getCellState(3, 4));
     }
 
@@ -42,7 +42,7 @@ public class MinesweeperTest {
     {
         minesweeper.exposeCell(2, 2);
         minesweeper.exposeCell(2, 2);
-//Venkat: blank line for each of the 3-As
+        
         assertEquals(CellState.EXPOSED, minesweeper.getCellState(2, 2));
     }
 
@@ -69,7 +69,7 @@ public class MinesweeperTest {
         };
 
         minesweeper.exposeCell(3, 4);
-//Venkat: blank line for each of the 3-As
+        
         assertTrue(exposeNeighborsOfCalled);
     }
 
@@ -85,6 +85,7 @@ public class MinesweeperTest {
             }
 
         };
+        
         minesweeper.exposeCell(3, 4);
 
         assertTrue(exposeNeighborsOfCalled);
@@ -131,10 +132,8 @@ public class MinesweeperTest {
         @Override
         public void exposeCell(int row, int column)
         {
-            ArrayList<Integer> newRowAndColumn = new ArrayList<Integer>(); //Venkat: Remove
-            newRowAndColumn.add(row); //Venkat: rowsAndColumns.add(row);
-            newRowAndColumn.add(column); //Venkat: rowsAndColumns.add(column);
-            rowsAndColumns.add(newRowAndColumn); //Venkat: Remove
+            rowsAndColumns.add(row);
+            rowsAndColumns.add(column);
         }
     }
 
@@ -143,121 +142,103 @@ public class MinesweeperTest {
     {
         Minesweeper minesweeper = new MinesweeperWithExposeCell();
         minesweeper.exposeNeighborsOf(3,4);
-//Venkat: Blank line for each of the 3-As
-        assertEquals(Arrays.asList(2, 4), rowsAndColumns.get(0));
-        assertEquals(Arrays.asList(4, 4), rowsAndColumns.get(1));
-        assertEquals(Arrays.asList(3, 3), rowsAndColumns.get(2));
-        assertEquals(Arrays.asList(3, 5), rowsAndColumns.get(3));
-        assertEquals(Arrays.asList(2, 3), rowsAndColumns.get(4));
-        assertEquals(Arrays.asList(4, 5), rowsAndColumns.get(5));
-        assertEquals(Arrays.asList(2, 5), rowsAndColumns.get(6));
-        assertEquals(Arrays.asList(4, 3), rowsAndColumns.get(7));
         
-        //Venkat: Please replace the above assertEquals with one assertEquals on ...rowsAndColumns, ArrayList(0, 1, 2, 3, ....)....
+        assertEquals(Arrays.asList(2, 4, 4, 4, 3, 3, 3, 5, 2, 3, 4, 5, 2, 5, 4, 3), rowsAndColumns);
     }
     
     @Test
     public void exposeNeighborsOnTopEdge()
     {
         Minesweeper minesweeper = new MinesweeperWithExposeCell();
+        
         minesweeper.exposeNeighborsOf(0, 4);
-        assertEquals(Arrays.asList(1, 4), rowsAndColumns.get(0));
-        assertEquals(Arrays.asList(0, 3), rowsAndColumns.get(1));
-        assertEquals(Arrays.asList(0, 5), rowsAndColumns.get(2));
-        assertEquals(Arrays.asList(1, 5), rowsAndColumns.get(3));
-        assertEquals(Arrays.asList(1, 3), rowsAndColumns.get(4));
+        
+        assertEquals(Arrays.asList(1, 4, 0, 3, 0, 5, 1, 5, 1, 3), rowsAndColumns);
     }
      
     @Test
     public void exposeNeighborsOnRightEdge()
     {
         Minesweeper minesweeper = new MinesweeperWithExposeCell();
+        
         minesweeper.exposeNeighborsOf(4, 9);
-        assertEquals(Arrays.asList(3, 9), rowsAndColumns.get(0));
-        assertEquals(Arrays.asList(5, 9), rowsAndColumns.get(1));
-        assertEquals(Arrays.asList(4, 8), rowsAndColumns.get(2));
-        assertEquals(Arrays.asList(3, 8), rowsAndColumns.get(3));
-        assertEquals(Arrays.asList(5, 8), rowsAndColumns.get(4));
+        
+        assertEquals(Arrays.asList(3, 9, 5, 9, 4, 8, 3, 8, 5, 8), rowsAndColumns);
     }
     
     @Test
     public void exposeNeighborsOnBottomEdge()
     {
         Minesweeper minesweeper = new MinesweeperWithExposeCell();
+        
         minesweeper.exposeNeighborsOf(9, 4);
-        assertEquals(Arrays.asList(8, 4), rowsAndColumns.get(0));
-        assertEquals(Arrays.asList(9, 3), rowsAndColumns.get(1));
-        assertEquals(Arrays.asList(9, 5), rowsAndColumns.get(2));
-        assertEquals(Arrays.asList(8, 3), rowsAndColumns.get(3));
-        assertEquals(Arrays.asList(8, 5), rowsAndColumns.get(4));
+        
+        assertEquals(Arrays.asList(8, 4, 9, 3, 9, 5, 8, 3, 8, 5), rowsAndColumns);
     }
-   
     
     @Test
     public void exposeNeighborsOnLeftEdge()
     {
         Minesweeper minesweeper = new MinesweeperWithExposeCell();
+        
         minesweeper.exposeNeighborsOf(4, 0);
-        assertEquals(Arrays.asList(3, 0), rowsAndColumns.get(0));
-        assertEquals(Arrays.asList(5, 0), rowsAndColumns.get(1));
-        assertEquals(Arrays.asList(4, 1), rowsAndColumns.get(2));
-        assertEquals(Arrays.asList(5, 1), rowsAndColumns.get(3));
-        assertEquals(Arrays.asList(3, 1), rowsAndColumns.get(4));
+        
+        assertEquals(Arrays.asList(3, 0, 5, 0, 4, 1, 5, 1, 3, 1), rowsAndColumns);
     }
     
     @Test
     public void exposeNeighborsOnTopLeftCorner()
     {
         Minesweeper minesweeper = new MinesweeperWithExposeCell();
+        
         minesweeper.exposeNeighborsOf(0, 0);
-        assertEquals(Arrays.asList(1, 0), rowsAndColumns.get(0));
-        assertEquals(Arrays.asList(0, 1), rowsAndColumns.get(1));
-        assertEquals(Arrays.asList(1, 1), rowsAndColumns.get(2));
+        
+        assertEquals(Arrays.asList(1, 0, 0, 1, 1, 1), rowsAndColumns);
     }
     
     @Test
     public void exposeNeighborsOnTopRightCorner()
     {
         Minesweeper minesweeper = new MinesweeperWithExposeCell();
+        
         minesweeper.exposeNeighborsOf(0, 9);
-        assertEquals(Arrays.asList(1, 9), rowsAndColumns.get(0));
-        assertEquals(Arrays.asList(0, 8), rowsAndColumns.get(1));
-        assertEquals(Arrays.asList(1, 8), rowsAndColumns.get(2));
+        
+        assertEquals(Arrays.asList(1, 9, 0, 8, 1, 8), rowsAndColumns);
     }
-    
+  
     @Test
     public void exposeNeighborsOnBottomRightCorner()
     {
         Minesweeper minesweeper = new MinesweeperWithExposeCell();
+        
         minesweeper.exposeNeighborsOf(9, 9);
-        assertEquals(Arrays.asList(8, 9), rowsAndColumns.get(0));
-        assertEquals(Arrays.asList(9, 8), rowsAndColumns.get(1));
-        assertEquals(Arrays.asList(8, 8), rowsAndColumns.get(2));
+        
+        assertEquals(Arrays.asList(8, 9, 9, 8, 8, 8), rowsAndColumns);
     }
     
     @Test
     public void exposeNeighborsOnBottomLeftCorner()
     {
         Minesweeper minesweeper = new MinesweeperWithExposeCell();
+        
         minesweeper.exposeNeighborsOf(9, 0);
-        assertEquals(Arrays.asList(8, 0), rowsAndColumns.get(0));
-        assertEquals(Arrays.asList(9, 1), rowsAndColumns.get(1));
-        assertEquals(Arrays.asList(8, 1), rowsAndColumns.get(2));
+        
+        assertEquals(Arrays.asList(8, 0, 9, 1, 8, 1), rowsAndColumns);
     }
     
     @Test
     public void sealCellOnUnexposedCell()
     {
-        minesweeper.sealCell(3, 4);
+        minesweeper.toggleSeal(3, 4);
         assertEquals(CellState.SEALED, minesweeper.getCellState(3, 4));
     }
     
     @Test
     public void unsealCellOnASealedCell()
     {
-        minesweeper.toggleCell(3, 4);
-        minesweeper.toggleCell(3, 4);
-//Venkat: Blank line for each of the 3-As
+        minesweeper.toggleSeal(3, 4);
+        minesweeper.toggleSeal(3, 4);
+        
         assertEquals(CellState.UNEXPOSED, minesweeper.getCellState(3, 4));
     }
     
@@ -272,7 +253,7 @@ public class MinesweeperTest {
             }
         };
         
-        minesweeper.sealCell(3, 4);
+        minesweeper.toggleSeal(3, 4);
         minesweeper.exposeCell(3, 4);
         assertEquals(CellState.SEALED, minesweeper.getCellState(3, 4));
         assertFalse(exposeNeighborsOfCalled);
