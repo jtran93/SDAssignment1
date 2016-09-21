@@ -20,10 +20,7 @@ public class MinesweeperTest {
     {
         minesweeper = new Minesweeper()
         {
-            public void placeMine(int row, int column)
-            {
 
-            }
         };
         exposeNeighborsOfCalled = false;
         rowsAndColumns = new ArrayList<Integer>();
@@ -305,31 +302,37 @@ public class MinesweeperTest {
     public void afterMineIsExposedShouldNotAllowExposeCell()
     {
         Minesweeper minesweeper = new Minesweeper();
+
         minesweeper.mines[3][4] = true;
         minesweeper.exposeCell(3, 4);
-
-        assertEquals(CellState.UNEXPOSED, minesweeper.getCellState(8, 8));
         minesweeper.exposeCell(8, 8);
+
         assertEquals(CellState.UNEXPOSED, minesweeper.getCellState(8, 8));
 
     }
+
+
 
     @Test
     public void afterMineIsExposedShouldNotAllowSealCell()
     {
         Minesweeper minesweeper = new Minesweeper();
+
         minesweeper.mines[3][4] = true;
         minesweeper.exposeCell(3, 4);
 
+        minesweeper.toggleSeal(1,6);
         assertEquals(CellState.UNEXPOSED, minesweeper.getCellState(1, 6));
-        minesweeper.toggleSeal(1, 6);
-        assertEquals(CellState.UNEXPOSED, minesweeper.getCellState(1, 6));
+
+
     }
+
 
     @Test
     public void notAnAdjacentCell()
     {
         Minesweeper minesweeper = new Minesweeper();
+
         minesweeper.mines[3][4] = true;
 
         assertFalse(minesweeper.isAnAdjacentCell(3, 4));
@@ -339,6 +342,7 @@ public class MinesweeperTest {
     public void isAnAdjacentCellNotOnAnyEdge()
     {
         Minesweeper minesweeper = new Minesweeper();
+
         minesweeper.mines[3][4] = true;
 
         assertTrue(minesweeper.isAnAdjacentCell(2, 4));
@@ -348,6 +352,7 @@ public class MinesweeperTest {
     public void isAnAdjacentCellOnCorner()
     {
         Minesweeper minesweeper = new Minesweeper();
+
         minesweeper.mines[1][1] = true;
 
         assertTrue(minesweeper.isAnAdjacentCell(0, 0));
@@ -357,27 +362,22 @@ public class MinesweeperTest {
     public void isAnAdjacentCellOnEdge()
     {
         Minesweeper minesweeper = new Minesweeper();
+
         minesweeper.mines[9][5] = true;
 
         assertTrue(minesweeper.isAnAdjacentCell(8, 4));
     }
 
- /*   //Venkat: Change this test to avoid stubbing. Create an object, let the constructor place the mines, check there are 10 mines
-    @Test
+    //Venkat: Change this test to avoid stubbing. Create an object, let the constructor place the mines, check there are 10 mines
+/*   @Test
     public void randomeMinePlacementPlaces10Mines()
     {
-        Minesweeper minesweeper = new Minesweeper()
-        {
-            @Override
-            public void placeMine(int rows, int columns)
-            {
-                rowsAndColumns.add(rows);
-            }
-        };
+        Minesweeper minesweeper = new Minesweeper();
 
-        minesweeper.placeRandomMines();
 
-        assertEquals(10, rowsAndColumns.size());
+
+
+        assertEquals(10, );
     }
 /*
 //Venkat: Write a test to verify the mines are at random position. For this, create two Minesweepers and

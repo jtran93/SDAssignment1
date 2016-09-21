@@ -6,14 +6,17 @@ public class Minesweeper
 {
     private final int SIZE = 10;
     private final int numberOfMines = 10;
+    boolean mineExposed;
     private CellState[][] cells = new CellState[SIZE][SIZE];
     protected boolean[][] mines = new boolean[SIZE][SIZE];
 
 
     public enum CellState {UNEXPOSED, EXPOSED, SEALED};
 
+
     public Minesweeper()
     {
+        mineExposed = false;
         for(int i = 0; i < SIZE; i++)
         {
             for(int j = 0; j < SIZE; j++)
@@ -21,18 +24,21 @@ public class Minesweeper
                 cells[i][j] = CellState.UNEXPOSED;
             }
         }
+        //placeRandomMines();
 
     }
 
     public void exposeCell(int row, int column)
     {
-        if(mineIsExposed() == false)
+        if(mineExposed == false)
         {
             if(cells[row][column] == CellState.UNEXPOSED && isAnAdjacentCell(row,column) == false)
             {
                 cells[row][column] = CellState.EXPOSED;
                 if(mines[row][column] == false)
                     exposeNeighborsOf(row, column);
+                else mineExposed = true;
+
             }
         }
     }
@@ -72,7 +78,7 @@ public class Minesweeper
 
     public void toggleSeal(int row, int column)
     {
-        if(mineIsExposed() == false)
+        if(mineExposed == false)
         {
             if(cells[row][column] == CellState.UNEXPOSED)
                 cells[row][column] = CellState.SEALED;
@@ -87,22 +93,10 @@ public class Minesweeper
         return mines[row][column];
     }
 
-    //Venkat: Remove
-    public boolean mineIsExposed()
-    {
-        for(int i = 0; i < SIZE; i++)
-        {
-            for(int j = 0; j < SIZE; j++)
-            {
-                if(mines[i][j] == true && cells[i][j] == CellState.EXPOSED)
-                    return true;
-            }
-        }
-        return false;
-    }
+
 
     //Venkat: Make this private and call it from within the constructor.
-    public void placeRandomMines()
+    private int placeRandomMines()
     {
         Random rand = new Random();
         int numMinesPlaced = 0;
@@ -115,7 +109,9 @@ public class Minesweeper
                 mines[randRow][randColumn] = true;
                 numMinesPlaced++;
             }
+
         }
+        return numMinesPlaced;
     }
 
     //Venkat: Merge the three functions below into one getGameStatus function that returns a GameStatus which is an enum of WON, LOST, INPROGRESS
@@ -135,7 +131,6 @@ public class Minesweeper
     public boolean checkGameInProgress()
     {
         int numMinesSealed = 0;
-        boolean mineExposed = false;
         for(int i = 0; i < SIZE; i++)
         {
             for(int j = 0; j < SIZE; j++)
