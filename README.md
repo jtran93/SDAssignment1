@@ -1,5 +1,6 @@
 # SDAssignment1
 9/21 8:00
+
 made placeRandomMines() private, added to constructor, created protected constructor to call when random mines are not needed, refactored randomMinePlaceMentPlaces10Mines test and created minesAreRandomlyPlaced test. removed mineExposed from checkGameInProgress as you need to expose all other non-mine cells before you win.
  
 
