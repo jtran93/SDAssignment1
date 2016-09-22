@@ -1,4 +1,7 @@
 # SDAssignment1
+9/21 12:00
+Finished gameWonWhenAllMinesAreSealedAndOtherCellsAreExposed() test, finished getGameStatus method, fixed exposeCell so that adjacent cells would be exposed. All tests passing. GUI is next.
+
 9/21 11:00
 
 changed getGameStatus method, got rid of second for loop.
