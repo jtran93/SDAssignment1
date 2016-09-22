@@ -1,5 +1,6 @@
 # SDAssignment1
 9/21 11:00
+
 changed getGameStatus method, got rid of second for loop.
 
 
