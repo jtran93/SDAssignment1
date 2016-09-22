@@ -1,4 +1,8 @@
 # SDAssignment1
+9/21 11:00
+changed getGameStatus method, got rid of second for loop.
+
+
 9/21 8:00
 
 made placeRandomMines() private, added to constructor, created protected constructor to call when random mines are not needed, refactored randomMinePlaceMentPlaces10Mines test and created minesAreRandomlyPlaced test. removed mineExposed from checkGameInProgress as you need to expose all other non-mine cells before you win. Merged GameStatus methods. Edited tests to reflect the merge. Removed GameInProgress code, since if you didnt win and you didnt lose, its still in progress.
