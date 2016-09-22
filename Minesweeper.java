@@ -39,11 +39,12 @@ public class Minesweeper {
 
     public void exposeCell(int row, int column) {
         if (mineExposed == false) {
-            if (cells[row][column] == CellState.UNEXPOSED && isAnAdjacentCell(row, column) == false) {
+            if (cells[row][column] == CellState.UNEXPOSED) {
                 cells[row][column] = CellState.EXPOSED;
-                if (mines[row][column] == false)
+                if (mines[row][column] == false  && isAnAdjacentCell(row, column) == false)
                     exposeNeighborsOf(row, column);
-                else mineExposed = true;
+                if(mines[row][column] == true)
+                    mineExposed = true;
 
             }
         }
@@ -90,7 +91,6 @@ public class Minesweeper {
     }
 
 
-    //Venkat: Make this private and call it from within the constructor.
     private void placeRandomMines() {
         Random rand = new Random();
 
@@ -112,7 +112,8 @@ public class Minesweeper {
 
     public GameStatus getGameStatus() {
         int numMinesSealed = 0;
-
+        int numExposedCells = 0;
+        int totalCells = SIZE * SIZE;
 
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -120,62 +121,16 @@ public class Minesweeper {
                     return GameStatus.LOST;
                 else if (mines[i][j] == true && cells[i][j] == CellState.SEALED) {
                     numMinesSealed++;
-                    if (numMinesSealed == numberOfMines)
-                        return GameStatus.WON;
                 }
-
+                else if(cells[i][j]==CellState.EXPOSED) {
+                    numExposedCells++;
+                }
+                    if (numMinesSealed == numberOfMines && numExposedCells == totalCells-numberOfMines)
+                        return GameStatus.WON;
             }
 
         }
         return GameStatus.INPROGRESS;
     }
+
 }
-/*    //Venkat: Merge the three functions below into one getGameStatus function that returns a GameStatus which is an enum of WON, LOST, INPROGRESS
-    public boolean checkGameLost()
-    {
-        for(int i = 0; i < SIZE; i++)
-        {
-            for(int j = 0; j < SIZE; j++)
-            {
-                if(mines[i][j] == true && cells[i][j] == CellState.EXPOSED)
-                    return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean checkGameInProgress()
-    {
-        int numMinesSealed = 0;
-        for(int i = 0; i < SIZE; i++)
-        {
-            for(int j = 0; j < SIZE; j++)
-            {
-                if(mines[i][j] == true && cells[i][j] == CellState.EXPOSED)
-                    mineExposed = true;
-            }
-        }
-        if(mineExposed == false)
-            return true;
-        else
-            return false;
-
-    }
-
-    public boolean checkGameWon()
-    {
-        int numMinesSealed = 0;
-        for(int i = 0; i < SIZE; i++)
-        {
-            for(int j = 0; j < SIZE; j++)
-            {
-                if(mines[i][j] == true && cells[i][j] == CellState.SEALED)
-                    numMinesSealed++;
-            }
-        }
-        if(numMinesSealed == numberOfMines)
-            return true;
-        else
-            return false;
-    }
-}*/

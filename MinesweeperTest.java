@@ -375,7 +375,6 @@ public class MinesweeperTest {
         assertTrue(minesweeper.isAnAdjacentCell(8, 4));
     }
 
-    //Venkat: Change this test to avoid stubbing. Create an object, let the constructor place the mines, check there are 10 mines
   @Test
     public void randomMinePlacementPlaces10Mines()
     {
@@ -384,8 +383,7 @@ public class MinesweeperTest {
         assertEquals(10,minesweeper.getNumberOfMines());
     }
 
-//Venkat: Write a test to verify the mines are at random position. For this, create two Minesweepers and
-//check that the mines are not all at the same location in both.
+
 
     @Test
     public void minesAreRandomlyPlaced() {
@@ -417,17 +415,20 @@ public class MinesweeperTest {
         assertEquals(GameStatus.INPROGRESS, minesweeper.getGameStatus());
     }
 
-    //Venkat: ...WhenAllMinesAreSealedAndOtherCellsAreExposed
     @Test
     public void gameWonWhenAllMinesAreSealedAndOtherCellsAreExposed()
     {
         Minesweeper minesweeper = new Minesweeper(noMines);
-
-        for(int i = 0; i < 10; i++)
+        for(int x = 0; x < 10; x++)
         {
-            minesweeper.mines[i][0] = true;
-            minesweeper.toggleSeal(i, 0);
+            minesweeper.mines[x][0] = true;
+            minesweeper.toggleSeal(x, 0);
 
+        }
+        for(int i = 0; i< 10; i++) {
+            for(int j = 1; j < 10; j++) {
+                minesweeper.exposeCell(i,j);
+            }
         }
 
         assertEquals(GameStatus.WON, minesweeper.getGameStatus());
