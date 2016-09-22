@@ -44,7 +44,8 @@ public class Minesweeper
                 cells[row][column] = CellState.EXPOSED;
                 if (mines[row][column] == false && isAnAdjacentCell(row, column) == false)
                     exposeNeighborsOf(row, column);
-                else mineExposed = true;
+                if (mines[row][column] == true)
+                    mineExposed = true;
 
             }
         }
@@ -116,22 +117,23 @@ public class Minesweeper
         }
     }
 
-    public GameStatus getGameStatus() 
-    {
+    public GameStatus getGameStatus() {
         int numMinesSealed = 0;
-        for (int i = 0; i < SIZE; i++) 
-        {
-            for (int j = 0; j < SIZE; j++) 
-            {
+        int numExposedCells = 0;
+        int totalCells = SIZE * SIZE;
+
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
                 if (mines[i][j] == true && cells[i][j] == CellState.EXPOSED)
                     return GameStatus.LOST;
-                else if (mines[i][j] == true && cells[i][j] == CellState.SEALED) 
-                {
+                else if (mines[i][j] == true && cells[i][j] == CellState.SEALED) {
                     numMinesSealed++;
-                    if (numMinesSealed == numberOfMines)
-                        return GameStatus.WON;
                 }
-
+                else if(cells[i][j]==CellState.EXPOSED) {
+                    numExposedCells++;
+                }
+                    if (numMinesSealed == numberOfMines && numExposedCells == totalCells-numberOfMines)
+                        return GameStatus.WON;
             }
 
         }
