@@ -118,20 +118,16 @@ public class Minesweeper {
             for (int j = 0; j < SIZE; j++) {
                 if (mines[i][j] == true && cells[i][j] == CellState.EXPOSED)
                     return GameStatus.LOST;
-            }
-        }
-
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                if (mines[i][j] == true && cells[i][j] == CellState.SEALED)
+                else if (mines[i][j] == true && cells[i][j] == CellState.SEALED) {
                     numMinesSealed++;
+                    if (numMinesSealed == numberOfMines)
+                        return GameStatus.WON;
+                }
+
             }
 
         }
-        if (numMinesSealed == numberOfMines)
-            return GameStatus.WON;
-        else return GameStatus.INPROGRESS;
-
+        return GameStatus.INPROGRESS;
     }
 }
 /*    //Venkat: Merge the three functions below into one getGameStatus function that returns a GameStatus which is an enum of WON, LOST, INPROGRESS
